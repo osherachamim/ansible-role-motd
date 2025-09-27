@@ -1,0 +1,16 @@
+---
+- name: Get last reboot time
+  ansible.builtin.command: who -b
+  register: last_reboot
+  changed_when: false
+  check_mode: false
+  tags: [motd]
+
+- name: Render MOTD from template
+  ansible.builtin.template:
+    src: motd.j2
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: "0644"
+  tags: [motd]
