@@ -1,0 +1,5 @@
+---
+- hosts: k8s_workers
+  become: true
+  roles:
+    - role: ansible-role-motd
