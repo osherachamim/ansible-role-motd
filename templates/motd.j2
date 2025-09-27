@@ -1,0 +1,22 @@
+{% set ipv4 = ansible_default_ipv4.address | default('n/a') %}
+{% set ipv6 = (ansible_default_ipv6.address | default('n/a')) if show_ip6 else None %}
+
+{{ '='*60 }}
+  {{ motd_title }} | Managed by Ansible at {{ ansible_date_time.iso8601 }}
+{{ '-'*60 }}
+ Host    : {{ ansible_fqdn | default(ansible_hostname) }}
+ IP(v4)  : {{ ipv4 }}{% if ipv6 %}   IP(v6): {{ ipv6 }}{% endif %}
+ OS      : {{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_os_family }})
+ Kernel  : {{ ansible_kernel }}
+ Uptime  : {{ (ansible_uptime_seconds|default(0)|int // 3600) }}h
+ CPU     : {{ ansible_processor_vcpus | default(ansible_processor_count) }} vCPU
+ RAM     : {{ ansible_memtotal_mb }} MB
+{% if motd_show_disks %}
+ Disks   :
+   MOUNTPOINT            SIZE     USED     AVAIL   USE%
+{% for m in ansible_mounts if m.device is string and m.device.startswith('/dev/') %}
+   {{ '%-20s'|format(m.mount) }}  {{ '%6s'|format(m.size_total // (1024*1024)) }}MB  {{ '%6s'|format((m.size_total - m.size_available) // (1024*1024)) }}MB  {{ '%6s'|format(m.size_available // (1024*1024)) }}MB  {{ '%3d'|format(((m.size_total - m.size_available) * 100 // (m.size_total|default(1)))) }}%%
+{% endfor %}
+{% endif %}
+ Last Reboot : {{ last_reboot.stdout }}
+{{ '='*60 }}
