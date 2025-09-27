@@ -1,0 +1,4 @@
+---
+motd_title: "Welcome"
+show_ip6: false
+motd_show_disks: true
