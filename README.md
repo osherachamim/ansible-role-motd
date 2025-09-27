@@ -17,5 +17,5 @@ Shows hostname, IP, OS, kernel, CPU, RAM, disk usage and **last reboot** time. I
 ## Inventory example
 ```ini
 [k8s_workers]
-k8s-worker1 ansible_host=<ipv4> ansible_user=osboxes ansible_ssh_private_key_file=<path_to_ssh_key>
-k8s-worker2 ansible_host=<ipv4> ansible_user=osboxes ansible_ssh_private_key_file=<path_to_ssh_key>
+k8s-worker1 ansible_host=<ipv4> ansible_user=<username> ansible_ssh_private_key_file=<path_to_ssh_key>
+k8s-worker2 ansible_host=<ipv4> ansible_user=<username> ansible_ssh_private_key_file=<path_to_ssh_key>
